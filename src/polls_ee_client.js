@@ -30,9 +30,10 @@ class PollsEEApi {
      tenantSCHex;
      adminSCHex;
 
-     constructor(baseUrl, tenantSCHex) {
+     constructor(baseUrl, tenantSCHex, adminSCHex) {
         this.baseUrl = baseUrl;
         this.tenantSCHex = tenantSCHex;
+        this.adminSCHex = adminSCHex;
      }
 
 
@@ -76,11 +77,23 @@ class PollsEEApi {
          return await result.json();
      }
 
-    createUser = async (id, type) => {
+    createUser = async (id, type, firstName, lastName, userName) => {
         const body = {
             id: id || "12345678",
             type: type || "telegram"
         };
+        // optional in API, but required for UX. Should be sent at least once..
+        if (firstName) {
+            body["first_name"] = firstName
+        }
+        if (lastName) {
+            body["last_name"] = lastName
+        }
+
+        if (userName) {
+            body["username"] = userName;
+        }
+
 
         const {sig,  ts } = await signRequest(this.tenantSCHex, body)
 

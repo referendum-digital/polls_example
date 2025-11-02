@@ -4,7 +4,8 @@ import PollsEEApi from "./polls_ee_client.js";
 function App() {
     const [api] = useState(new PollsEEApi(
         "https://sera-vote-main-926007600519.us-central1.run.app",
-        "8B5052377B80AE057E66901950D6131E374E10FA56112799995624FD4B3F1D30"
+        "8B5052377B80AE057E66901950D6131E374E10FA56112799995624FD4B3F1D30",
+        "20F3FE2968AC9A790B17F61649C101B5CDA95126BB89E6E041878B6673562AB9"
     ));
     const [polls, setPolls] = useState([]);
     const [selectedPoll, setSelectedPoll] = useState(null);
@@ -39,7 +40,7 @@ function App() {
     };
 
     const createUser = async () => {
-        const token = await api.createUser("user123", "telegram");
+        const token = await api.createUser("user123", "telegram", "Alex", "M", "alm023");
         setUserToken(token);
     };
 
@@ -132,7 +133,7 @@ function App() {
 
 function CreatePollModal({ onClose, onCreate }) {
     const [question, setQuestion] = useState("");
-    const [options, setOptions] = useState([{ key: "opt0", value: "" }, { key: "opt2", value: "" }]);
+    const [options, setOptions] = useState([{ key: "opt0", value: "" }, { key: "opt1", value: "" }]);
     const [batchSize, setBatchSize] = useState(5);
 
     const handleOptionChange = (index, value) => {
@@ -142,12 +143,15 @@ function CreatePollModal({ onClose, onCreate }) {
     };
 
     const addOption = () => {
-        setOptions([...options, { key: `opt${options.length}`, value: "" }]);
+        setOptions([...options, { key: `opt${options.length+2}`, value: "" }]);
     };
 
     const handleSubmit = () => {
         const filteredOptions = options.filter(o => o.value.trim() !== "");
         if (!question || filteredOptions.length < 2) return alert("Provide question and at least 2 options");
+        for (let i = 0; i < filteredOptions.length; i++) {
+            filteredOptions[i].key = filteredOptions[i].value.trim().replace(/ /g, "_").toLowerCase();
+        }
         onCreate(question, filteredOptions, batchSize);
     };
 
