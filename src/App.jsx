@@ -40,7 +40,7 @@ function App() {
     };
 
     const createUser = async () => {
-        const token = await api.createUser("user123", "telegram", "Alex", "M", "alm023");
+        const token = await api.createUser("1341462357", "telegram", "Al", "M", "alm023");
         setUserToken(token);
     };
 
