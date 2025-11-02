@@ -5,6 +5,10 @@ on:
     branches:
       - main
 
+concurrency:
+  group: 'pages-deploy'
+  cancel-in-progress: true
+
 permissions:
   contents: write
   pages: write
