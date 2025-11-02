@@ -151,7 +151,6 @@ class PollsEEApi {
     getLeaderboard = async(pollId) =>{
         return  await fetch(`${this.baseUrl}/poll/${pollId}/leaderboard`);
     }
-
 }
 
 export default PollsEEApi;
