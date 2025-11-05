@@ -57,7 +57,7 @@ class PollsEEApi {
                      {
                          chain: "ton",
                          network: "mainnet",
-                         address: "EQA-yc574Hs7jTOhyfCmVP0tVoOq0nMvp7dmYsxSN9fk6myX"
+                         address: "EQCG64YTmSggDkPMf4D8PhIhaTxJAe6RW4wp4Y_F0CiUyXFL"
                      }
                  ]
              }
