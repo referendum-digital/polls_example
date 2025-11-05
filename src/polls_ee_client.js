@@ -50,6 +50,7 @@ class PollsEEApi {
                  }
              ],
              allow_multiple_answers: true,
+             weight_required: true,
              chain_config: {
                  target_type: "data_size",
                  target_value: batchSize || 5,
@@ -113,6 +114,7 @@ class PollsEEApi {
     voteInPoll = async (pollId, answerKey, userToken) => {
         const body = {
             answer_key: answerKey,
+            weight: 10
         };
 
         const {sig,  ts } = await signRequest(this.tenantSCHex, body)
