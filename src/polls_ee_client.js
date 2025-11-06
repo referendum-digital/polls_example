@@ -57,9 +57,14 @@ class PollsEEApi {
                  write_list: [
                      {
                          chain: "ton",
-                         network: "mainnet",
-                         address: "EQCG64YTmSggDkPMf4D8PhIhaTxJAe6RW4wp4Y_F0CiUyXFL"
-                     }
+                         network: "testnet",
+                         address: "EQDtPeiIAH4QtlHZD8p6_pXoE6iRu3APA8-4RkrXVsEa0PsW"
+                     },
+                     // {
+                     //     chain: "ton",
+                     //     network: "mainnet",
+                     //     address: "EQCG64YTmSggDkPMf4D8PhIhaTxJAe6RW4wp4Y_F0CiUyXFL"
+                     // }
                  ]
              }
          };
