@@ -7,7 +7,20 @@ function App() {
         "8B5052377B80AE057E66901950D6131E374E10FA56112799995624FD4B3F1D30",
         "20F3FE2968AC9A790B17F61649C101B5CDA95126BB89E6E041878B6673562AB9"
     ));
+
+    const allChainConfigs = [
+        {
+            network: "testnet",
+            address: "EQDtPeiIAH4QtlHZD8p6_pXoE6iRu3APA8-4RkrXVsEa0PsW"
+        },
+        {
+            network: "mainnet",
+            address: "EQCG64YTmSggDkPMf4D8PhIhaTxJAe6RW4wp4Y_F0CiUyXFL"
+        }
+    ];
+
     const [polls, setPolls] = useState([]);
+    const [selectedChainConfig, setSelectedChainConfig] = useState(allChainConfigs[0]);
     const [selectedPoll, setSelectedPoll] = useState(null);
     const [userToken, setUserToken] = useState("");
     const [voteKey, setVoteKey] = useState("");
@@ -30,7 +43,7 @@ function App() {
 
     const createPoll = async (question, options, batchSize) => {
         try {
-            const r = await api.createPoll(question, options, batchSize);
+            const r = await api.createPoll(question, options, batchSize, selectedChainConfig.network, selectedChainConfig.address);
             setResult(r);
             setShowCreateModal(false);
             fetchPolls();
@@ -125,13 +138,19 @@ function App() {
             </div>
 
             {showCreateModal && (
-                <CreatePollModal onClose={() => setShowCreateModal(false)} onCreate={createPoll} />
+                <CreatePollModal
+                    onClose={() => setShowCreateModal(false)}
+                    onCreate={createPoll}
+                    allChainConfigs={allChainConfigs}
+                    selectedChainConfig={selectedChainConfig}
+                    setSelectedChainConfig={setSelectedChainConfig}
+                />
             )}
         </div>
     );
 }
 
-function CreatePollModal({ onClose, onCreate }) {
+function CreatePollModal({ onClose, onCreate, allChainConfigs, selectedChainConfig, setSelectedChainConfig }) {
     const [question, setQuestion] = useState("");
     const [options, setOptions] = useState([{ key: "opt0", value: "" }, { key: "opt1", value: "" }]);
     const [batchSize, setBatchSize] = useState(5);
@@ -163,6 +182,23 @@ function CreatePollModal({ onClose, onCreate }) {
         }}>
             <div style={{ backgroundColor: "white", padding: "2rem", borderRadius: "8px", width: "400px" }}>
                 <h2>Create Poll</h2>
+                <div style={{ marginBottom: "1rem" }}>
+                    <label style={{ display: "block", marginBottom: "0.25rem" }}>Chain Config:</label>
+                    <select
+                        value={selectedChainConfig.address}
+                        onChange={(e) => {
+                            const cfg = allChainConfigs.find(c => c.address === e.target.value);
+                            if (cfg) setSelectedChainConfig(cfg);
+                        }}
+                        style={{ width: "100%", padding: "0.25rem" }}
+                    >
+                        {allChainConfigs.map((cfg) => (
+                            <option key={cfg.address} value={cfg.address}>
+                                {cfg.network} — {cfg.address}
+                            </option>
+                        ))}
+                    </select>
+                </div>
                 <div>
                     <input
                         placeholder="Question"

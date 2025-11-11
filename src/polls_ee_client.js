@@ -37,7 +37,7 @@ class PollsEEApi {
      }
 
 
-     createPoll = async (question, answers, batchSize) => {
+     createPoll = async (question, answers, batchSize, network, address) => {
          const body = {
              question: question || "Who should we select and dispatch to space?",
              answers: answers || [
@@ -57,14 +57,9 @@ class PollsEEApi {
                  write_list: [
                      {
                          chain: "ton",
-                         network: "testnet",
-                         address: "EQDtPeiIAH4QtlHZD8p6_pXoE6iRu3APA8-4RkrXVsEa0PsW"
-                     },
-                     // {
-                     //     chain: "ton",
-                     //     network: "mainnet",
-                     //     address: "EQCG64YTmSggDkPMf4D8PhIhaTxJAe6RW4wp4Y_F0CiUyXFL"
-                     // }
+                         network: network,
+                         address: address
+                     }
                  ]
              }
          };
